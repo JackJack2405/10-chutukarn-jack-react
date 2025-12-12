@@ -1,15 +1,14 @@
-import { useState } from "react"
-im
+import { useState, useEffect } from "react";
+import EmployeeFrom from "./EmployeeFrom";
+import axios from "axios";
 
+export default function AdminView() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const URL = "https://67eca027aa794fb3222e43e2.mockapi.io/members";
 
-
-export default function AdminView () {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [loadingError, setLoadingError] = useState("");
-    const URL = "https://67eca027aa794fb3222e43e2.mockapi.io/members";
-    
-    const fetchdata = async () => {
+  const fetchdata = async () => {
     try {
       setLoading(true);
       await axios.get(URL).then((response) => {
@@ -22,13 +21,21 @@ export default function AdminView () {
       setLoading(false);
     }
   };
-    
-    
-    
+  const deleteData = async (id) => {
+    const isConfirm = confirm("You sure you want to delete");
+    if (!isConfirm) return;
+    await axios.delete(`${URL}/${id}`).then(() => {
+      fetchdata();
+    });
+  };
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
   return (
     <div>
       <h2 className="text-2xl font-bold"> Create User here</h2>
-      <FromInput fetchdata={fetchdata} />
+      <EmployeeFrom fetchdata={fetchdata} />
       {loading ? (
         <h1>Loading...</h1>
       ) : (
