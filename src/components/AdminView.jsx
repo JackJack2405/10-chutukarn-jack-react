@@ -1,0 +1,71 @@
+import { useState } from "react"
+im
+
+
+
+export default function AdminView () {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [loadingError, setLoadingError] = useState("");
+    const URL = "https://67eca027aa794fb3222e43e2.mockapi.io/members";
+    
+    const fetchdata = async () => {
+    try {
+      setLoading(true);
+      await axios.get(URL).then((response) => {
+        setData(response.data);
+      });
+    } catch (error) {
+      setError(error);
+    } finally {
+      console.log("loading complete");
+      setLoading(false);
+    }
+  };
+    
+    
+    
+  return (
+    <div>
+      <h2 className="text-2xl font-bold"> Create User here</h2>
+      <FromInput fetchdata={fetchdata} />
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <table className="table-auto w-full mt-4 p-2 text-center border-collapse border-spacing-2 border border-gray-400">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="p-2">Name</th>
+              <th>Last Name</th>
+              <th>Position</th>
+              <th className="w-2/10">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item) => (
+              <tr key={item.id}>
+                <th>{item.name}</th>
+                <th>{item.lastname}</th>
+                <th>{item.position}</th>
+                <th>
+                  <button
+                    className="font-bold text-red-500 h-full hover:shadow-md p-1 rounded-md"
+                    onClick={() => deleteData(item.id)}
+                  >
+                    Delete
+                  </button>
+                  {/* <button
+                    className="font-bold text-red-500 h-full hover:shadow-md p-1 rounded-md"
+                    onClick={() => deleteData(item.id)}
+                  >
+                    Edit
+                  </button> */}
+                </th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
