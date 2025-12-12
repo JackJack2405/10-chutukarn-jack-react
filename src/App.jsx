@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Owner from "./pages/Owner";
 import Home from "./pages/Home";
@@ -26,4 +27,12 @@ import Layout from "./components/Layout";
   return (
     <RouterProvider router={router} />
   )
+=======
+export default function App() {
+  return (
+    <div className="min-h-screen flex justify-center bg-rose-100">
+
+    </div>
+  );
+>>>>>>> main
 }
